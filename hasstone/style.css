@@ -1,0 +1,53 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.card {
+  height: 100px;
+  width: 70px;
+  border: 1px solid brown;
+  display: inline-block;
+  position: relative;
+}
+.attribute {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  border-radius: 50%;
+  position: absolute;
+  text-align: center;
+  line-height: 30px;
+}
+.att {
+  background-color: red;
+  bottom: 0;
+  left: 0;
+}
+.cost {
+  background-color: green;
+  top: 0;
+  left: 0;
+}
+.hp {
+  background-color: blue;
+  bottom: 0;
+  right: 0;
+}
+#you,
+#me {
+  border: 1px solid black;
+  height: 350px;
+  position: relative;
+}
+#yourDeck,
+#myDeck {
+  top: 0;
+  right: 0;
+  position: absolute;
+  display: block;
+}
+span {
+  display: block;
+  text-align: center;
+}
