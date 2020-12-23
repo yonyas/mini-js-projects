@@ -2,12 +2,15 @@
   padding: 0;
   margin: 0;
 }
-.card {
+
+.cardTag {
   height: 100px;
   width: 70px;
   border: 1px solid brown;
   display: inline-block;
   position: relative;
+  top: 0;
+  left: 0;
 }
 .attribute {
   display: inline-block;
@@ -37,8 +40,7 @@
 }
 #you,
 #me {
-  border: 1px solid black;
-  height: 350px;
+  height: 300px;
   position: relative;
 }
 #yourDeck,
@@ -52,12 +54,7 @@ span {
   display: block;
   text-align: center;
 }
-#yourHero,
-#myHero {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+
 #yourField,
 #myField {
   position: absolute;
@@ -73,4 +70,15 @@ p span {
 }
 .turn {
   background-color: blanchedalmond;
+}
+button {
+  display: block;
+  margin: 0 auto;
+  height: 30px;
+}
+.clicked {
+  background-color: red;
+}
+.hidden {
+  display: none;
 }

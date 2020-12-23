@@ -9,20 +9,33 @@
   <body>
     <div id="you">
       <p>cost: <span id="yourCost">10</span> / 10</p>
-      <div id="yourHero"><span>영웅</span></div>
-      <div id="yourField"></div>
+      <span>영웅</span>
+      <div id="yourHeroAndField">
+        <div id="yourHero"></div>
+        <div id="yourField"></div>
+      </div>
       <span>덱</span>
       <div id="yourDeck"></div>
     </div>
+    <button id="turnBtn">턴바꾸기</button>
     <div class="turn" id="me">
       <p>cost: <span id="myCost">10</span> / 10</p>
-      <div id="myHero"><span>영웅</span></div>
-      <div id="myField"></div>
+      <span>영웅</span>
+      <div id="myHeroAndField">
+        <div id="myHero"></div>
+        <div id="myField"></div>
+      </div>
 
       <span>덱</span>
       <div id="myDeck"></div>
     </div>
-
+    초록색은 cost, 빨간색은 공격력, 파랑색은 방어력. 상대 영웅의 방어력이 0이
+    되면 게임 끝
+    <div class="cardTag hidden">
+      <div class="attribute att"></div>
+      <div class="attribute hp"></div>
+      <div class="attribute cost"></div>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>

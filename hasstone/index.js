@@ -1,15 +1,35 @@
 const body = document.querySelector("body");
-const table = document.createElement("table");
-const tr = document.createElement("tr");
-const td = document.createElement("td");
+const cardTag = document.querySelector(".cardTag");
 const yourHero = document.querySelector("#yourHero");
 const yourField = document.querySelector("#yourField");
 const yourDeck = document.querySelector("#yourDeck");
+const yourCost = document.querySelector("#yourCost");
 const myHero = document.querySelector("#myHero");
 const myField = document.querySelector("#myField");
 const myDeck = document.querySelector("#myDeck");
-const yourCost = document.querySelector("#yourCost");
 const myCost = document.querySelector("#myCost");
+const turn = document.querySelector(".turn");
+const turnBtn = document.querySelector("#turnBtn");
+const myHeroAndField = document.querySelector("#myHeroAndField");
+const yourHeroAndField = document.querySelector("#yourHeroAndField");
+let myClickedCard = [];
+let yourClickedCard = [];
+let currentTurn = true; // true면 내턴, false면 상대턴
+
+// 턴 바꾸기
+turnBtn.addEventListener("click", function () {
+  document.querySelector("#you").classList.toggle("turn");
+  document.querySelector("#me").classList.toggle("turn");
+  if (currentTurn) {
+    currentTurn = false;
+    myCost.textContent = 10;
+    console.log("currentTurn is " + currentTurn);
+  } else {
+    currentTurn = true;
+    yourCost.textContent = 10;
+    console.log("currentTurn is " + currentTurn);
+  }
+});
 // 카드 생성자를 담을 데이터
 var myCard = [];
 var yourCard = [];
@@ -23,8 +43,8 @@ var myCardTag = [];
 var yourCardTag = [];
 var myFieldCardTag = [];
 var yourFieldCardTag = [];
-var myHeroCardTag;
-var yourHeroCardTag;
+var heroCardTag;
+var deckCardTag = [];
 
 // 카드 만들기
 var Card = function (team, hero) {
@@ -39,6 +59,17 @@ var Card = function (team, hero) {
     this.cost = null;
   }
 };
+
+var cardAttributeToTag = function (card, tag, hero) {
+  if (hero) {
+    tag.querySelector(".att").textContent = card.att;
+    tag.querySelector(".hp").textContent = card.hp;
+  } else {
+    tag.querySelector(".att").textContent = card.att;
+    tag.querySelector(".cost").textContent = card.cost;
+    tag.querySelector(".hp").textContent = card.hp;
+  }
+};
 var makeCardAndToScreen = function (num, team, locate) {
   // 영웅일 때
   if (locate === myHero || locate === yourHero) {
@@ -47,23 +78,13 @@ var makeCardAndToScreen = function (num, team, locate) {
     } else if (team === "you") {
       yourHeroCard = new Card(team, true);
     }
-    const card = document.createElement("div");
-    const att = document.createElement("div");
-    const hp = document.createElement("div");
-    card.className = "card";
-    att.className = `attribute att`;
-    hp.className = `attribute hp`;
-    card.append(att);
-    card.append(hp);
-    locate.append(card);
+    heroCardTag = cardTag.cloneNode(true);
+    heroCardTag.classList.remove("hidden");
+    locate.append(heroCardTag);
     if (team === "me") {
-      myHeroCardTag = card;
-      myHeroCardTag.querySelector(".att").textContent = myHeroCard.att;
-      myHeroCardTag.querySelector(".hp").textContent = myHeroCard.hp;
+      cardAttributeToTag(myHeroCard, heroCardTag, true);
     } else if (team === "you") {
-      yourHeroCardTag = card;
-      yourHeroCardTag.querySelector(".att").textContent = yourHeroCard.att;
-      yourHeroCardTag.querySelector(".hp").textContent = yourHeroCard.hp;
+      cardAttributeToTag(yourHeroCard, heroCardTag, true);
     }
   } else {
     // 덱에 생성할 떄
@@ -77,40 +98,31 @@ var makeCardAndToScreen = function (num, team, locate) {
     }
 
     for (i = 0; i < myCard.length; i++) {
-      const card = document.createElement("div");
-      const att = document.createElement("div");
-      const cost = document.createElement("div");
-      const hp = document.createElement("div");
-      card.className = "card";
-      att.className = `attribute att`;
-      cost.className = `attribute cost`;
-      hp.className = `attribute hp`;
-      card.append(att);
-      card.append(cost);
-      card.append(hp);
-      locate.append(card);
+      deckCardTag = cardTag.cloneNode(true);
+      deckCardTag.classList.remove("hidden");
+      locate.append(deckCardTag);
       if (team === "me") {
-        myCardTag.push(card);
-        myCardTag[i].querySelector(".att").textContent = myCard[i].att;
-        myCardTag[i].querySelector(".cost").textContent = myCard[i].cost;
-        myCardTag[i].querySelector(".hp").textContent = myCard[i].hp;
+        myCardTag.push(deckCardTag);
+        cardAttributeToTag(myCard[i], myCardTag[i]);
       } else if (team === "you") {
-        yourCardTag.push(card);
-        yourCardTag[i].querySelector(".att").textContent = yourCard[i].att;
-        yourCardTag[i].querySelector(".cost").textContent = yourCard[i].cost;
-        yourCardTag[i].querySelector(".hp").textContent = yourCard[i].hp;
+        yourCardTag.push(deckCardTag);
+        cardAttributeToTag(yourCard[i], yourCardTag[i]);
       }
     }
   }
 };
+
 makeCardAndToScreen(5, "me", myDeck);
 makeCardAndToScreen(1, "me", myHero);
 makeCardAndToScreen(5, "you", yourDeck);
 makeCardAndToScreen(1, "you", yourHero);
 
-// 덱에서 필드로 이동
+// 덱에서 필드로 이동 (상대카드 눌렀을 때)
 yourDeck.addEventListener("click", function (e) {
   console.log(e.toElement);
+  if (currentTurn) {
+    return;
+  }
   if (
     Number(yourCost.textContent) <
     e.toElement.querySelector(".cost").textContent
@@ -119,34 +131,14 @@ yourDeck.addEventListener("click", function (e) {
   } else {
     yourCost.textContent -= e.toElement.querySelector(".cost").textContent;
   }
-  const card = document.createElement("div");
-  const att = document.createElement("div");
-  const hp = document.createElement("div");
-  const cost = document.createElement("cost");
-  card.className = "card";
-  att.className = `attribute att`;
-  hp.className = `attribute hp`;
-  cost.className = `attribute cost`;
-  card.append(att);
-  card.append(hp);
-  card.append(cost);
-  yourField.append(card);
+  yourFieldCardTag = cardTag.cloneNode(true);
+  yourFieldCardTag.classList.remove("hidden");
+  yourField.append(yourFieldCardTag);
 
-  yourFieldCardTag = card;
-  yourFieldCardTag.querySelector(
-    ".att"
-  ).textContent = e.toElement.querySelector(".att").textContent;
-
-  yourFieldCardTag.querySelector(".hp").textContent = e.toElement.querySelector(
-    ".hp"
-  ).textContent;
-
-  yourFieldCardTag.querySelector(
-    ".cost"
-  ).textContent = e.toElement.querySelector(".cost").textContent;
-
-  // 덱카드 삭제 (몇번째 카드 눌렀는지 확인 후 배열에서 지우고 다시 그리기)
   var deckClickedIndex = yourCardTag.indexOf(e.toElement);
+  yourFieldCard = yourCard[deckClickedIndex];
+  cardAttributeToTag(yourFieldCard, yourFieldCardTag);
+
   yourCardTag.splice(deckClickedIndex, 1);
   yourCard.splice(deckClickedIndex, 1);
   console.log(yourCardTag);
@@ -155,8 +147,11 @@ yourDeck.addEventListener("click", function (e) {
   yourCardTag = [];
   makeCardAndToScreen(1, "you", yourDeck);
 });
-
+// 덱에서 필드로 (내카드 눌렀을 때)
 myDeck.addEventListener("click", function (e) {
+  if (!currentTurn) {
+    return;
+  }
   if (
     Number(myCost.textContent) < e.toElement.querySelector(".cost").textContent
   ) {
@@ -164,34 +159,14 @@ myDeck.addEventListener("click", function (e) {
   } else {
     myCost.textContent -= e.toElement.querySelector(".cost").textContent;
   }
-  console.log(e.toElement);
-  const card = document.createElement("div");
-  const att = document.createElement("div");
-  const hp = document.createElement("div");
-  const cost = document.createElement("cost");
-  card.className = "card";
-  att.className = `attribute att`;
-  hp.className = `attribute hp`;
-  cost.className = `attribute cost`;
-  card.append(att);
-  card.append(hp);
-  card.append(cost);
-  myField.append(card);
+  myFieldCardTag = cardTag.cloneNode(true);
+  myFieldCardTag.classList.remove("hidden");
+  myField.append(myFieldCardTag);
 
-  myFieldCardTag = card;
-  myFieldCardTag.querySelector(".att").textContent = e.toElement.querySelector(
-    ".att"
-  ).textContent;
-
-  myFieldCardTag.querySelector(".hp").textContent = e.toElement.querySelector(
-    ".hp"
-  ).textContent;
-
-  myFieldCardTag.querySelector(".cost").textContent = e.toElement.querySelector(
-    ".cost"
-  ).textContent;
-  // 덱카드 삭제 (몇번째 카드 눌렀는지 확인 후 배열에서 지우고 다시 그리기)
   var deckClickedIndex = myCardTag.indexOf(e.toElement);
+  myFieldCard = myCard[deckClickedIndex];
+
+  cardAttributeToTag(myFieldCard, myFieldCardTag);
   myCardTag.splice(deckClickedIndex, 1);
   myCard.splice(deckClickedIndex, 1);
   console.log(myCardTag);
@@ -199,4 +174,21 @@ myDeck.addEventListener("click", function (e) {
   myDeck.innerHTML = "";
   myCardTag = [];
   makeCardAndToScreen(1, "me", myDeck);
+});
+
+// 공격시작 (내턴)
+myHeroAndField.addEventListener("click", function (e) {
+  myClickedCard.push(e.toElement);
+  console.log(myClickedCard);
+  myClickedCard[0].classList.add("clicked");
+});
+yourHeroAndField.addEventListener("click", function (e) {
+  yourClickedCard.push(e.toElement);
+  if (myClickedCard.length === 1 && yourClickedCard.length === 1) {
+    console.log("attack");
+    console.log(myClickedCard);
+    myClickedCard[0].classList.remove("clicked");
+    myClickedCard = [];
+    yourClickedCard = [];
+  }
 });
