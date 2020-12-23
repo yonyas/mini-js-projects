@@ -18,6 +18,7 @@
   position: absolute;
   text-align: center;
   line-height: 30px;
+  color: white;
 }
 .att {
   background-color: red;
@@ -50,4 +51,26 @@
 span {
   display: block;
   text-align: center;
+}
+#yourHero,
+#myHero {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#yourField,
+#myField {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+p {
+  position: absolute;
+  left: 100px;
+}
+p span {
+  display: inline-block;
+}
+.turn {
+  background-color: blanchedalmond;
 }
