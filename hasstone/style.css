@@ -22,6 +22,7 @@
   text-align: center;
   line-height: 30px;
   color: white;
+  pointer-events: none;
 }
 .att {
   background-color: red;
@@ -50,10 +51,6 @@
   position: absolute;
   display: block;
 }
-span {
-  display: block;
-  text-align: center;
-}
 
 #yourField,
 #myField {
@@ -68,6 +65,10 @@ p {
 p span {
   display: inline-block;
 }
+.deckText {
+  text-align: right;
+  display: block;
+}
 .turn {
   background-color: blanchedalmond;
 }
@@ -79,6 +80,13 @@ button {
 .clicked {
   background-color: red;
 }
+.used {
+  background-color: grey;
+}
 .hidden {
   display: none;
+}
+#myHeroAndField,
+#yourHeroAndField {
+  display: inline-block;
 }

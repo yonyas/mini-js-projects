@@ -14,18 +14,28 @@ const myHeroAndField = document.querySelector("#myHeroAndField");
 const yourHeroAndField = document.querySelector("#yourHeroAndField");
 let myClickedCard = [];
 let yourClickedCard = [];
-let currentTurn = true; // true면 내턴, false면 상대턴
+let currentTurn = "me";
 
+var removeUsedClass = function (tag) {
+  if (tag.querySelector(".used")) {
+    tag.querySelector(".used").classList.remove("used");
+  }
+};
 // 턴 바꾸기
 turnBtn.addEventListener("click", function () {
   document.querySelector("#you").classList.toggle("turn");
   document.querySelector("#me").classList.toggle("turn");
-  if (currentTurn) {
-    currentTurn = false;
+
+  removeUsedClass(myHero);
+  removeUsedClass(myField);
+  removeUsedClass(yourHero);
+  removeUsedClass(yourHero);
+  if (currentTurn === "me") {
+    currentTurn = "you";
     myCost.textContent = 10;
     console.log("currentTurn is " + currentTurn);
   } else {
-    currentTurn = true;
+    currentTurn = "me";
     yourCost.textContent = 10;
     console.log("currentTurn is " + currentTurn);
   }
@@ -120,7 +130,7 @@ makeCardAndToScreen(1, "you", yourHero);
 // 덱에서 필드로 이동 (상대카드 눌렀을 때)
 yourDeck.addEventListener("click", function (e) {
   console.log(e.toElement);
-  if (currentTurn) {
+  if (currentTurn === "me") {
     return;
   }
   if (
@@ -131,13 +141,15 @@ yourDeck.addEventListener("click", function (e) {
   } else {
     yourCost.textContent -= e.toElement.querySelector(".cost").textContent;
   }
-  yourFieldCardTag = cardTag.cloneNode(true);
-  yourFieldCardTag.classList.remove("hidden");
-  yourField.append(yourFieldCardTag);
 
+  yourFieldCardTag.push(cardTag.cloneNode(true));
   var deckClickedIndex = yourCardTag.indexOf(e.toElement);
-  yourFieldCard = yourCard[deckClickedIndex];
-  cardAttributeToTag(yourFieldCard, yourFieldCardTag);
+  yourFieldCard.push(yourCard[deckClickedIndex]);
+  for (i = 0; i < yourFieldCardTag.length; i++) {
+    yourFieldCardTag[i].classList.remove("hidden");
+    yourField.append(yourFieldCardTag[i]);
+    cardAttributeToTag(yourFieldCard[i], yourFieldCardTag[i]);
+  }
 
   yourCardTag.splice(deckClickedIndex, 1);
   yourCard.splice(deckClickedIndex, 1);
@@ -149,7 +161,7 @@ yourDeck.addEventListener("click", function (e) {
 });
 // 덱에서 필드로 (내카드 눌렀을 때)
 myDeck.addEventListener("click", function (e) {
-  if (!currentTurn) {
+  if (currentTurn === "you") {
     return;
   }
   if (
@@ -159,14 +171,14 @@ myDeck.addEventListener("click", function (e) {
   } else {
     myCost.textContent -= e.toElement.querySelector(".cost").textContent;
   }
-  myFieldCardTag = cardTag.cloneNode(true);
-  myFieldCardTag.classList.remove("hidden");
-  myField.append(myFieldCardTag);
-
+  myFieldCardTag.push(cardTag.cloneNode(true));
   var deckClickedIndex = myCardTag.indexOf(e.toElement);
-  myFieldCard = myCard[deckClickedIndex];
-
-  cardAttributeToTag(myFieldCard, myFieldCardTag);
+  myFieldCard.push(myCard[deckClickedIndex]);
+  for (i = 0; i < myFieldCardTag.length; i++) {
+    myFieldCardTag[i].classList.remove("hidden");
+    myField.append(myFieldCardTag[i]);
+    cardAttributeToTag(myFieldCard[i], myFieldCardTag[i]);
+  }
   myCardTag.splice(deckClickedIndex, 1);
   myCard.splice(deckClickedIndex, 1);
   console.log(myCardTag);
@@ -178,17 +190,93 @@ myDeck.addEventListener("click", function (e) {
 
 // 공격시작 (내턴)
 myHeroAndField.addEventListener("click", function (e) {
+  if (e.toElement.classList.contains("used") || currentTurn === "you") {
+    return;
+  }
   myClickedCard.push(e.toElement);
-  console.log(myClickedCard);
   myClickedCard[0].classList.add("clicked");
+  console.log(myClickedCard + "my 1");
 });
 yourHeroAndField.addEventListener("click", function (e) {
+  if (myClickedCard.length === 0) {
+    return;
+  }
   yourClickedCard.push(e.toElement);
-  if (myClickedCard.length === 1 && yourClickedCard.length === 1) {
-    console.log("attack");
-    console.log(myClickedCard);
+  console.log(yourClickedCard + "your 1");
+  if (myClickedCard.length !== 0 && yourClickedCard.length !== 0) {
+    yourClickedCard[0].querySelector(
+      ".hp"
+    ).textContent -= myClickedCard[0].querySelector(".att").textContent;
+    // 공격대상이 영웅이면
+    if (yourClickedCard[0].querySelector(".cost").textContent === "") {
+      if (yourClickedCard[0].querySelector(".hp").textContent <= 0) {
+        console.log("my win!!");
+      }
+      yourHeroCard.hp -= myClickedCard[0].querySelector(".att").textContent;
+
+      yourHero.innerHTML = "";
+      yourHero.append(yourClickedCard[0]);
+      // 공격대상이 일반병사면
+    } else {
+      yourField.innerHTML = "";
+      for (i = 0; i < yourFieldCardTag.length; i++) {
+        yourField.append(yourFieldCardTag[i]);
+      }
+    }
+
     myClickedCard[0].classList.remove("clicked");
-    myClickedCard = [];
-    yourClickedCard = [];
+    myClickedCard[0].classList.add("used");
+    for (i = 0; i < myClickedCard; i++) {
+      myClickedCard[i] = [];
+    }
+    for (i = 0; i < yourClickedCard; i++) {
+      yourClickedCard[i] = [];
+    }
+  }
+});
+// 공격시작 (상대 턴)
+yourHeroAndField.addEventListener("click", function (e) {
+  if (e.toElement.classList.contains("used") || currentTurn === "me") {
+    return;
+  }
+  yourClickedCard.push(e.toElement);
+  yourClickedCard[0].classList.add("clicked");
+  console.log(yourClickedCard + "your 2");
+});
+myHeroAndField.addEventListener("click", function (e) {
+  if (yourClickedCard.length === 0) {
+    return;
+  }
+  myClickedCard.push(e.toElement);
+  console.log(myClickedCard + "my 2");
+  if (myClickedCard.length !== 0 && yourClickedCard.length !== 0) {
+    myClickedCard[0].querySelector(
+      ".hp"
+    ).textContent -= yourClickedCard[0].querySelector(".att").textContent;
+    // 공격대상이 영웅이면
+    if (myClickedCard[0].querySelector(".cost").textContent === "") {
+      if (myClickedCard[0].querySelector(".hp").textContent <= 0) {
+        console.log("my win!!");
+      }
+      myHeroCard.hp -= yourClickedCard[0].querySelector(".att").textContent;
+
+      myHero.innerHTML = "";
+      myHero.append(myClickedCard[0]);
+      // 공격대상이 일반병사면
+    } else {
+      myField.innerHTML = "";
+      for (i = 0; i < myFieldCardTag.length; i++) {
+        myField.append(myFieldCardTag[i]);
+      }
+    }
+
+    yourClickedCard[0].classList.remove("clicked");
+    yourClickedCard[0].classList.add("used");
+    for (i = 0; i < myClickedCard; i++) {
+      myClickedCard[i] = [];
+    }
+    for (i = 0; i < yourClickedCard; i++) {
+      yourClickedCard[i] = [];
+    }
   }
 });
