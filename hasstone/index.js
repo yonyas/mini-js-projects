@@ -15,31 +15,6 @@ const yourHeroAndField = document.querySelector("#yourHeroAndField");
 let myClickedCard = [];
 let yourClickedCard = [];
 let currentTurn = "me";
-
-var removeUsedClass = function (tag) {
-  if (tag.querySelector(".used")) {
-    tag.querySelector(".used").classList.remove("used");
-  }
-};
-// 턴 바꾸기
-turnBtn.addEventListener("click", function () {
-  document.querySelector("#you").classList.toggle("turn");
-  document.querySelector("#me").classList.toggle("turn");
-
-  removeUsedClass(myHero);
-  removeUsedClass(myField);
-  removeUsedClass(yourHero);
-  removeUsedClass(yourHero);
-  if (currentTurn === "me") {
-    currentTurn = "you";
-    myCost.textContent = 10;
-    console.log("currentTurn is " + currentTurn);
-  } else {
-    currentTurn = "me";
-    yourCost.textContent = 10;
-    console.log("currentTurn is " + currentTurn);
-  }
-});
 // 카드 생성자를 담을 데이터
 var myCard = [];
 var yourCard = [];
@@ -55,6 +30,36 @@ var myFieldCardTag = [];
 var yourFieldCardTag = [];
 var heroCardTag;
 var deckCardTag = [];
+
+var removeUsedClass = function (tag) {
+  if (tag.querySelector(".used")) {
+    var hasUsedClassList = tag.querySelectorAll(".used");
+    for (i = 0; i < hasUsedClassList.length; i++) {
+      hasUsedClassList[i].classList.remove("used");
+    }
+  }
+};
+// 턴 바꾸기
+turnBtn.addEventListener("click", function () {
+  document.querySelector("#you").classList.toggle("turn");
+  document.querySelector("#me").classList.toggle("turn");
+
+  removeUsedClass(myHero);
+  removeUsedClass(myField);
+  removeUsedClass(yourHero);
+  removeUsedClass(yourField);
+  if (currentTurn === "me") {
+    currentTurn = "you";
+    myCost.textContent = 10;
+    console.log("currentTurn is " + currentTurn);
+  } else {
+    currentTurn = "me";
+    yourCost.textContent = 10;
+    console.log("currentTurn is " + currentTurn);
+  }
+  myClickedCard = [];
+  yourClickedCard = [];
+});
 
 // 카드 만들기
 var Card = function (team, hero) {
@@ -196,6 +201,14 @@ myHeroAndField.addEventListener("click", function (e) {
   myClickedCard.push(e.toElement);
   myClickedCard[0].classList.add("clicked");
   console.log(myClickedCard + "my 1");
+  if (myClickedCard.length !== 0) {
+    myClickedCard[0].classList.remove("clicked");
+    myClickedCard = [];
+    myClickedCard.push(e.toElement);
+    myClickedCard[0].classList.add("clicked");
+
+    console.log(myClickedCard);
+  }
 });
 yourHeroAndField.addEventListener("click", function (e) {
   if (myClickedCard.length === 0) {
@@ -218,6 +231,10 @@ yourHeroAndField.addEventListener("click", function (e) {
       yourHero.append(yourClickedCard[0]);
       // 공격대상이 일반병사면
     } else {
+      if (yourClickedCard[0].querySelector(".hp").textContent <= 0) {
+        var deadCardIndex = yourFieldCardTag.indexOf(yourClickedCard[0]);
+        yourFieldCardTag.splice(deadCardIndex, 1);
+      }
       yourField.innerHTML = "";
       for (i = 0; i < yourFieldCardTag.length; i++) {
         yourField.append(yourFieldCardTag[i]);
@@ -226,12 +243,8 @@ yourHeroAndField.addEventListener("click", function (e) {
 
     myClickedCard[0].classList.remove("clicked");
     myClickedCard[0].classList.add("used");
-    for (i = 0; i < myClickedCard; i++) {
-      myClickedCard[i] = [];
-    }
-    for (i = 0; i < yourClickedCard; i++) {
-      yourClickedCard[i] = [];
-    }
+    myClickedCard = [];
+    yourClickedCard = [];
   }
 });
 // 공격시작 (상대 턴)
@@ -242,6 +255,15 @@ yourHeroAndField.addEventListener("click", function (e) {
   yourClickedCard.push(e.toElement);
   yourClickedCard[0].classList.add("clicked");
   console.log(yourClickedCard + "your 2");
+
+  if (yourClickedCard.length !== 0) {
+    yourClickedCard[0].classList.remove("clicked");
+    yourClickedCard = [];
+    yourClickedCard.push(e.toElement);
+    yourClickedCard[0].classList.add("clicked");
+
+    console.log(yourClickedCard);
+  }
 });
 myHeroAndField.addEventListener("click", function (e) {
   if (yourClickedCard.length === 0) {
@@ -256,7 +278,7 @@ myHeroAndField.addEventListener("click", function (e) {
     // 공격대상이 영웅이면
     if (myClickedCard[0].querySelector(".cost").textContent === "") {
       if (myClickedCard[0].querySelector(".hp").textContent <= 0) {
-        console.log("my win!!");
+        console.log("your win!!");
       }
       myHeroCard.hp -= yourClickedCard[0].querySelector(".att").textContent;
 
@@ -264,6 +286,10 @@ myHeroAndField.addEventListener("click", function (e) {
       myHero.append(myClickedCard[0]);
       // 공격대상이 일반병사면
     } else {
+      if (myClickedCard[0].querySelector(".hp").textContent <= 0) {
+        var deadCardIndex = myFieldCardTag.indexOf(myClickedCard[0]);
+        myFieldCardTag.splice(deadCardIndex, 1);
+      }
       myField.innerHTML = "";
       for (i = 0; i < myFieldCardTag.length; i++) {
         myField.append(myFieldCardTag[i]);
@@ -272,11 +298,7 @@ myHeroAndField.addEventListener("click", function (e) {
 
     yourClickedCard[0].classList.remove("clicked");
     yourClickedCard[0].classList.add("used");
-    for (i = 0; i < myClickedCard; i++) {
-      myClickedCard[i] = [];
-    }
-    for (i = 0; i < yourClickedCard; i++) {
-      yourClickedCard[i] = [];
-    }
+    myClickedCard = [];
+    yourClickedCard = [];
   }
 });
