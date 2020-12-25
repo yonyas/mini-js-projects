@@ -69,8 +69,7 @@ var Card = function (team, hero) {
   this.cost = Math.floor((this.hp + this.att) / 2);
   if (hero) {
     this.hero = hero;
-    this.att = Math.ceil(Math.random() * 3);
-    this.hp = Math.ceil(Math.random() * 10) + 20;
+    this.hp = Math.ceil(Math.random() * 10) + 5;
     this.cost = null;
   }
 };
@@ -95,9 +94,14 @@ var makeCardAndToScreen = function (num, team, locate) {
     }
     heroCardTag = cardTag.cloneNode(true);
     heroCardTag.classList.remove("hidden");
+    heroCardTag.querySelector(".cost").style.display = "none";
+    var heroText = document.createElement("div");
+    heroText.textContent = "영웅";
+    heroCardTag.append(heroText);
     locate.append(heroCardTag);
     if (team === "me") {
       cardAttributeToTag(myHeroCard, heroCardTag, true);
+      console.log(myHeroCard, heroCardTag);
     } else if (team === "you") {
       cardAttributeToTag(yourHeroCard, heroCardTag, true);
     }
@@ -111,7 +115,6 @@ var makeCardAndToScreen = function (num, team, locate) {
         yourCard.push(new Card(team));
       }
     }
-
     for (i = 0; i < myCard.length; i++) {
       deckCardTag = cardTag.cloneNode(true);
       deckCardTag.classList.remove("hidden");
@@ -119,6 +122,7 @@ var makeCardAndToScreen = function (num, team, locate) {
       if (team === "me") {
         myCardTag.push(deckCardTag);
         cardAttributeToTag(myCard[i], myCardTag[i]);
+        console.log(myCard, myCardTag);
       } else if (team === "you") {
         yourCardTag.push(deckCardTag);
         cardAttributeToTag(yourCard[i], yourCardTag[i]);
@@ -127,10 +131,30 @@ var makeCardAndToScreen = function (num, team, locate) {
   }
 };
 
-makeCardAndToScreen(5, "me", myDeck);
-makeCardAndToScreen(1, "me", myHero);
-makeCardAndToScreen(5, "you", yourDeck);
-makeCardAndToScreen(1, "you", yourHero);
+// 초기세팅
+var initGame = function () {
+  myDeck.innerHTML = "";
+  yourDeck.innerHTML = "";
+  myHero.innerHTML = "";
+  yourHero.innerHTML = "";
+  myField.innerHTML = "";
+  yourField.innerHTML = "";
+  myCard = [];
+  yourCard = [];
+  myCardTag = [];
+  yourCardTag = [];
+  myFieldCardTag = [];
+  yourFieldCardTag = [];
+  deckCardTag = null;
+  myHeroCard = null;
+  yourHeroCard = null;
+  heroCardTag = null;
+  makeCardAndToScreen(5, "me", myDeck);
+  makeCardAndToScreen(1, "me", myHero);
+  makeCardAndToScreen(5, "you", yourDeck);
+  makeCardAndToScreen(1, "you", yourHero);
+};
+initGame();
 
 // 덱에서 필드로 이동 (상대카드 눌렀을 때)
 yourDeck.addEventListener("click", function (e) {
@@ -224,6 +248,8 @@ yourHeroAndField.addEventListener("click", function (e) {
     if (yourClickedCard[0].querySelector(".cost").textContent === "") {
       if (yourClickedCard[0].querySelector(".hp").textContent <= 0) {
         console.log("my win!!");
+        setTimeout(initGame, 1000);
+        return;
       }
       yourHeroCard.hp -= myClickedCard[0].querySelector(".att").textContent;
 
@@ -279,6 +305,8 @@ myHeroAndField.addEventListener("click", function (e) {
     if (myClickedCard[0].querySelector(".cost").textContent === "") {
       if (myClickedCard[0].querySelector(".hp").textContent <= 0) {
         console.log("your win!!");
+        setTimeout(initGame, 1000);
+        return;
       }
       myHeroCard.hp -= yourClickedCard[0].querySelector(".att").textContent;
 
