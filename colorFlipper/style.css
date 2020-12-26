@@ -1,0 +1,48 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+header {
+  height: 50px;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+}
+header .left,
+header .right {
+  display: inline-block;
+  line-height: 50px;
+  font-weight: bold;
+}
+header .left span {
+  color: blue;
+}
+header .right span {
+  color: black;
+}
+header .right span:last-child {
+  margin-left: 10px;
+}
+/* main */
+.main {
+  background-color: burlywood;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main h1 {
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  width: 500px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.main button {
+  width: 100px;
+  height: 30px;
+  margin-top: 20px;
+}
