@@ -35,14 +35,15 @@ function changeNum() {
 var num = changeNum();
 
 btn.forEach(function (button) {
-  button.addEventListener("click", function () {
-    if (button.textContent === "DECREASE") {
+  button.addEventListener("click", function (e) {
+    var btnText = e.currentTarget.classList;
+    if (btnText.contains("decrease")) {
       num.decrease();
       changeColor();
-    } else if (button.textContent === "RESET") {
+    } else if (btnText.contains("reset")) {
       num.reset();
       changeColor();
-    } else if (button.textContent === "INCREASE") {
+    } else if (btnText.contains("increase")) {
       num.increase();
       changeColor();
     }
