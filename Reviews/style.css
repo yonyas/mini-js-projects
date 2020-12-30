@@ -1,0 +1,87 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #f1f5f8;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+header h1 {
+  display: inline-block;
+  position: relative;
+}
+header h1::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4px;
+  background-color: #49a6e9;
+  width: 50%;
+}
+.main {
+  margin-top: 60px;
+  width: 630px;
+  background-color: white;
+  text-align: center;
+  padding: 30px;
+  z-index: 0;
+  border-radius: 10px;
+  box-shadow: black 5px 5px;
+}
+
+.main .img::before {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  width: 150px;
+  height: 150px;
+  background-color: #49a6e9;
+  display: block;
+  border-radius: 50%;
+  z-index: -1;
+}
+.main .img::after {
+  content: '"';
+  position: absolute;
+  color: white;
+  font-size: 70px;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #49a6e9;
+}
+.main .img {
+  display: inline-block;
+  background: url("images/beach.jpg") -300px -300px no-repeat;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+}
+.main .name {
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+.main .job {
+  color: #49a6e9;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.main .info {
+  color: grey;
+}
