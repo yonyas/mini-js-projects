@@ -74,7 +74,8 @@ header h1::after {
 }
 .main .img {
   display: inline-block;
-  background: url("images/beach.jpg") -300px -300px no-repeat;
+  background-image: url("images/beach.jpg");
+  background-size: cover;
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -102,7 +103,7 @@ header h1::after {
   color: #49a6e9;
   padding: 0 10px;
 }
-.main .random a {
+.main .random {
   color: #49a6e9;
   font-size: 15px;
   letter-spacing: 0px;
@@ -115,7 +116,7 @@ header h1::after {
   transition: all 0.5s;
 }
 
-.main .random a:hover {
+.main .random:hover {
   background-color: cornflowerblue;
   color: white;
 }
