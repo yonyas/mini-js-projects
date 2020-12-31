@@ -30,10 +30,7 @@ prev.addEventListener("click", function () {
   if (n < 0) {
     n = 3;
   }
-  img.style.backgroundImage = `url(${person.pic[n]})`;
-  fullName.textContent = `${person.name[n]}`;
-  job.textContent = `${person.job[n]}`;
-  info.textContent = `${person.info[n]}`;
+  changeThings(n);
 });
 
 next.addEventListener("click", function () {
@@ -41,17 +38,17 @@ next.addEventListener("click", function () {
   if (n > 3) {
     n = 0;
   }
-  img.style.backgroundImage = `url(${person.pic[n]})`;
-  fullName.textContent = `${person.name[n]}`;
-  job.textContent = `${person.job[n]}`;
-  info.textContent = `${person.info[n]}`;
+  changeThings(n);
 });
 
 random.addEventListener("click", function () {
   let randomNum = Math.floor(Math.random() * 4);
-
-  img.style.backgroundImage = `url(${person.pic[randomNum]})`;
-  fullName.textContent = `${person.name[randomNum]}`;
-  job.textContent = `${person.job[randomNum]}`;
-  info.textContent = `${person.info[randomNum]}`;
+  changeThings(randomNum);
 });
+
+const changeThings = function (index) {
+  img.style.backgroundImage = `url(${person.pic[index]})`;
+  fullName.textContent = `${person.name[index]}`;
+  job.textContent = `${person.job[index]}`;
+  info.textContent = `${person.info[index]}`;
+};
