@@ -1,0 +1,96 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+ul {
+  list-style: none;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #f1f5f8;
+}
+.main {
+  background-color: #fff;
+  height: 100vh;
+  width: 250px;
+  display: inline-block;
+  transition: all 0.5s;
+  transform: translate(-100%);
+}
+.show {
+  transform: translate(0);
+}
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px black;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.logo .close {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  transition: all 0.3s linear;
+}
+.logo .close:hover {
+  /* animation: rotate 2s linear; */
+  transform: rotate(360deg);
+}
+@keyframes rotate {
+  0% {
+    trnasform: rotate(180deg);
+  }
+  50% {
+    trnasform: rotate(180deg);
+  }
+  100% {
+    trnasform: rotate(180deg);
+  }
+}
+.nav ul a {
+  display: block;
+  padding: 20px 0 20px 10px;
+  color: darkcyan;
+  font-weight: bold;
+  font-size: 20px;
+}
+.link {
+  position: absolute;
+  bottom: 20px;
+}
+.link a {
+  display: inline-block;
+}
+/* toggle btn */
+.toggle {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+.toggle .btn {
+  width: 30px;
+  height: 30px;
+  animation: bounce 2s linear infinite;
+  transition: all 0.5s;
+}
+.toggle .btn:hover {
+  color: white;
+}
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
