@@ -84,3 +84,9 @@ body {
   border-radius: 15px;
   margin-right: 15px;
 }
+.hide {
+  display: none;
+}
+.show {
+  display: flex;
+}
