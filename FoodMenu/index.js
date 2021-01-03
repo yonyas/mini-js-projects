@@ -73,37 +73,46 @@ const menuLists = [
   },
 ];
 
-const btn = document.querySelectorAll(".btn");
+const btns = document.querySelector(".btns");
 const menus = document.querySelector(".menus");
 
 window.addEventListener("DOMContentLoaded", function () {
   displayMenuItems(menuLists);
-});
 
-// 버튼 클릭하면 data-id 받아서 menuList: category랑 같으면 display func 넘겨주기
-btn.forEach(function (currentBtn) {
-  currentBtn.addEventListener("click", function (e) {
-    let category = currentBtn.dataset.id;
-    let menuCategory = menuLists.filter(function (menuListItem) {
-      if (category === menuListItem.category) {
-        return menuListItem;
+  // 버튼 구현(menuLists에서 category를 중복제거후 배열에 넣고, map, innerHtml 이용)
+  const category = menuLists.reduce(
+    function (value, cur) {
+      if (!value.includes(cur.category)) {
+        value.push(cur.category);
+      }
+      return value;
+    },
+    ["all"]
+  );
+  const categoryBtn = category
+    .map(function (item, i) {
+      return `<button class="btn" data-id="${item}">${item}</button>`;
+    })
+    .join("");
+  btns.innerHTML = categoryBtn;
+  // 버튼 클릭하면 data-id 받아서 menuList: category랑 같으면 display func 넘겨주기
+  const btn = document.querySelectorAll(".btn");
+
+  btn.forEach(function (currentBtn) {
+    currentBtn.addEventListener("click", function (e) {
+      let category = currentBtn.dataset.id;
+      let menuCategory = menuLists.filter(function (menuListItem) {
+        if (category === menuListItem.category) {
+          return menuListItem;
+        }
+      });
+      // map, filter 는 배열로 반환한다. 배열 초기화 자시고 할 필요없어 편함
+      if (category === "all") {
+        displayMenuItems(menuLists);
+      } else {
+        displayMenuItems(menuCategory);
       }
     });
-    if (category === "all") {
-      displayMenuItems(menuLists);
-    } else {
-      displayMenuItems(menuCategory);
-    }
-
-    // menuLists.forEach(function (menuListItem) {
-    //   if (menuListItem.category === category) {
-    //     correspondItem.push(menuListItem);
-    //     console.log(correspondItem);
-    //     displayMenuItems(correspondItem);
-    //   } else if (category === "all") {
-    //     displayMenuItems(menuLists);
-    //   }
-    // });
   });
 });
 
