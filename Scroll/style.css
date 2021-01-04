@@ -3,6 +3,9 @@
   margin: 0;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 a {
   color: black;
   text-decoration: none;
@@ -11,7 +14,7 @@ ul {
   list-style: none;
 }
 /* HOME */
-.home {
+#home {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -24,7 +27,7 @@ ul {
 
 .nav-center {
   padding: 20px;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 .nav-header {
   display: flex;
@@ -41,18 +44,17 @@ ul {
 nav .logo {
   height: 50px;
 }
-nav .links {
-  display: block;
+nav .links-container {
   overflow: hidden;
   z-index: 1;
   transition: all 0.5s linear;
 }
-.hide-links {
-  max-height: 0;
+nav .links {
+  display: block;
 }
+
 .show-links {
   max-height: 200px;
-  /* transition: all 0.5s linear; */
 }
 nav .links ul {
   display: inline-block;
@@ -67,6 +69,7 @@ nav .links li a {
   color: black;
   font-weight: bold;
   font-size: 20px;
+  transition: all 0.5s;
 }
 @media screen and (min-width: 800px) {
   .toggle-menu {
@@ -76,9 +79,12 @@ nav .links li a {
     display: flex;
     justify-content: space-between;
   }
+  nav .links-container {
+    height: auto !important;
+  }
   nav .links {
     display: inline-block;
-    max-height: 100%;
+    height: 100%;
     z-index: 100;
     clear: both;
   }
@@ -91,9 +97,16 @@ nav .links li a {
     display: flex;
   }
 }
-.hide {
-  display: none;
+
+/* fixed navbar */
+.fixed-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
 }
+
 /* home-main */
 .home-main {
   display: flex;
@@ -101,6 +114,7 @@ nav .links li a {
   justify-content: center;
   align-items: center;
   text-align: center;
+  min-height: 100vh;
 }
 .home-center {
   color: #fff;
@@ -157,11 +171,13 @@ footer {
   color: white;
 }
 .to-top-btn {
-  display: block;
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
   width: 30px;
   height: 30px;
-  background-color: red;
-  border-radius: 50%;
+  font-size: 1rem;
+  background: aqua;
   position: fixed;
   bottom: 10px;
   right: 10px;
@@ -177,4 +193,7 @@ footer {
   100% {
     transform: scale(1);
   }
+}
+.hide {
+  display: none;
 }

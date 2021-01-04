@@ -8,20 +8,22 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
   </head>
   <body>
-    <div class="home">
+    <div id="home">
       <nav>
         <div class="nav-center">
           <div class="nav-header">
             <img src="./logo.svg" alt="logo" class="logo" />
             <button class="toggle-menu"><i class="fas fa-bars"></i></button>
           </div>
-          <div class="links hide-links">
-            <ul>
-              <li><a href="#home">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#tours">Tours</a></li>
-            </ul>
+          <div class="links-container">
+            <div class="links">
+                <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#tours">Tours</a></li>
+                </ul>
+             </div>
           </div>
         </div>
       </nav>
@@ -51,7 +53,9 @@
         <p>Copyright &copy; Backroads Travel Tours Company <span class="date">2021</span>. All Rights Reserved</p>
     </footer>
     <!-- back to top -->
-    <a href="#home" class="to-top-btn"></a>
+    <a href="#home" class="to-top-btn hide">
+      <i class="fas fa-arrow-up"></i>
+    </a>
     <script src="index.js"></script>
   </body>
 </html>
