@@ -36,3 +36,32 @@ window.addEventListener("scroll", function () {
     toTopBtn.classList.add("hide");
   }
 });
+
+// scroll to the page
+const navHeight = nav.getBoundingClientRect().height;
+const linkBtns = document.querySelectorAll(".linkBtns");
+
+linkBtns.forEach(function (linkBtn) {
+  linkBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    // 현재 클릭링크의 about,,string 잡아서 높이 구하기
+    const id = e.currentTarget.getAttribute("href").slice(1);
+    const pageLink = document.querySelector(`#${id}`);
+    let fixedNav = document
+      .querySelector("nav")
+      .classList.contains("fixed-nav");
+    let height = pageLink.offsetTop;
+
+    if (!fixedNav) {
+      height -= navHeight;
+    } else {
+      height -= navHeight;
+    }
+
+    window.scrollTo({
+      left: 0,
+      top: height,
+    });
+  });
+});
+// console.log(linkBtn);

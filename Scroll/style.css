@@ -27,7 +27,7 @@ ul {
 
 .nav-center {
   padding: 20px;
-  /* background-color: #fff; */
+  background-color: #fff;
 }
 .nav-header {
   display: flex;
@@ -78,6 +78,7 @@ nav .links li a {
   .nav-center {
     display: flex;
     justify-content: space-between;
+    background-color: transparent;
   }
   nav .links-container {
     height: auto !important;
@@ -181,7 +182,7 @@ footer {
   position: fixed;
   bottom: 10px;
   right: 10px;
-  animation: bounce 1s 2s infinite;
+  animation: bounce 1s infinite;
 }
 @keyframes bounce {
   0% {
