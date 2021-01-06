@@ -64,4 +64,3 @@ linkBtns.forEach(function (linkBtn) {
     });
   });
 });
-// console.log(linkBtn);

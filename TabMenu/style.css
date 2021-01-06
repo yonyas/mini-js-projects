@@ -32,46 +32,44 @@ body {
 .contents .pic img {
   height: 100%;
   width: 100%;
-  background-size: contain;
   border-radius: 10px;
+  object-fit: cover;
 }
-table {
+/* article */
+.article {
+  display: grid;
   background-color: #fff;
   border-radius: 20px;
-  border-collapse: collapse;
 }
-table td {
+.article-title {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* justify-content: space-around; */
+  border-radius: 20px 20px 0 0;
+}
+.article-title button {
   border: none;
-}
-table .head td {
+  font-size: 18px;
+  display: block;
+  padding: 1rem 0;
   background-color: #dae2ec;
-  /* border-radius: 20px; */
 }
-table .head td:first-child {
+.article-title button:first-child {
   border-radius: 20px 0 0 0;
 }
-table .head td:last-child {
+.article-title button:last-child {
   border-radius: 0 20px 0 0;
 }
-.active {
-  background-color: #fff !important;
+.article-desc {
+  text-align: start;
+  padding: 30px 30px;
 }
-table button {
-  background-color: transparent;
-  border: none;
-  font-size: 20px;
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
+.article-desc h4 {
+  margin-bottom: 10px;
 }
-table h3 {
-  font-size: 15px;
-}
-table p {
+.article-desc p {
   color: grey;
 }
-table h3,
-table p {
-  text-align: start;
-  padding: 10px 20px;
+.tab-btn.active {
+  background-color: #fff;
 }
