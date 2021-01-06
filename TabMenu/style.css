@@ -24,10 +24,13 @@ body {
 .main {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 .main .pic {
   height: 300px;
   margin-bottom: 20px;
+  flex: 0.8;
+  margin-right: 5px;
 }
 .main .pic img {
   height: 100%;
@@ -35,11 +38,14 @@ body {
   border-radius: 10px;
   object-fit: cover;
 }
+
 /* article */
 .article {
+  flex: 0.8;
   display: grid;
   background-color: #fff;
   border-radius: 20px;
+  margin-left: 5px;
 }
 .article-title {
   display: grid;
@@ -74,6 +80,17 @@ body {
 }
 .article-desc p {
   color: grey;
+}
+@media screen and (min-width: 1000px) {
+  .article {
+    grid-template-rows: 50px 8fr;
+  }
+  .main {
+    flex-direction: row;
+  }
+  .article-title button {
+    padding: 0;
+  }
 }
 /* js adjust */
 .tab-btn.active {
