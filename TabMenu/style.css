@@ -21,15 +21,15 @@ body {
 .title p {
   color: gray;
 }
-.contents {
+.main {
   display: flex;
   flex-direction: column;
 }
-.contents .pic {
+.main .pic {
   height: 300px;
   margin-bottom: 20px;
 }
-.contents .pic img {
+.main .pic img {
   height: 100%;
   width: 100%;
   border-radius: 10px;
@@ -53,12 +53,17 @@ body {
   display: block;
   padding: 1rem 0;
   background-color: #dae2ec;
+  transition: all 0.5s;
+  cursor: pointer;
 }
 .article-title button:first-child {
   border-radius: 20px 0 0 0;
 }
 .article-title button:last-child {
   border-radius: 0 20px 0 0;
+}
+.article-title button:hover {
+  background-color: #ebf7ff;
 }
 .article-desc {
   text-align: start;
@@ -70,6 +75,13 @@ body {
 .article-desc p {
   color: grey;
 }
+/* js adjust */
 .tab-btn.active {
   background-color: #fff;
+}
+.contents {
+  display: none;
+}
+.show {
+  display: block;
 }
