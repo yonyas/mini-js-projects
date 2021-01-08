@@ -21,39 +21,39 @@ const weekdays = [
   "Friday",
   "Saturday",
 ];
-const day = document.querySelector(".day");
-const date = document.querySelector(".date");
-const month = document.querySelector(".month");
-const year = document.querySelector(".year");
-const hour = document.querySelector(".hour");
-const minute = document.querySelector(".minute");
+const dueDateTag = document.querySelector(".dueDateTag");
 
 const remaindays = document.querySelector(".remaindays");
 const remainhours = document.querySelector(".remainhours");
 const remainmins = document.querySelector(".remainmins");
 const remainsecs = document.querySelector(".remainsecs");
 
+const deadline = document.querySelector(".deadline");
+
 //내가 넣은 임의의 날짜 화면 구현
-const dueDate = new Date(2021, 0, 10, 9, 00);
+const dueDate = new Date(2021, 10, 11, 9, 00);
 console.log(dueDate);
-day.textContent = weekdays[dueDate.getDay()];
-date.textContent = dueDate.getDate();
-month.textContent = dueDate.getMonth() + 1;
-year.textContent = dueDate.getFullYear();
-if (dueDate.getHours() < 10) {
-  hour.textContent = `0${dueDate.getHours()}`;
-} else {
-  hour.textContent = dueDate.getHours();
-}
-if (dueDate.getMinutes() < 10) {
-  minute.textContent = `0${dueDate.getMinutes()}`;
-} else {
-  minute.textContent = dueDate.getMinutes();
+
+let day = weekdays[dueDate.getDay()];
+let date = dueDate.getDate();
+let month = dueDate.getMonth() + 1;
+let year = dueDate.getFullYear();
+let hours = addZero(dueDate.getHours());
+let minutes = addZero(dueDate.getMinutes());
+
+dueDateTag.innerHTML = `Giveaway Ends On ${year} ${date} ${day}, ${hours}:${minutes}`;
+
+function addZero(item) {
+  if (item < 10) {
+    return `0${item}`;
+  } else {
+    return item;
+  }
 }
 
+let currentDate = new Date();
 // 현재 날짜와의 차이 구하기
 function getRemainingDate() {
-  let currentDate = new Date();
   remainsecs.textContent = Math.floor(((dueDate - currentDate) / 1000) % 60);
   remainmins.textContent = Math.floor(
     ((dueDate - currentDate) / 1000 / 60) % 60
@@ -66,3 +66,7 @@ function getRemainingDate() {
   );
 }
 setInterval(getRemainingDate, 1000);
+
+if (dueDate - currentDate < 0) {
+  deadline.innerHTML = "The date has been expired";
+}
