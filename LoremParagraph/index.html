@@ -13,11 +13,17 @@
   </head>
   <body>
     <main>
-      <h1>TIRED OF BORING LOREM IPSUM?</h1>
-      <p>
+      <!-- <p>
         Paragraphs: <input class="paraNum" value="1" type="number" />
         <button class="btn">GENERATE</button>
-      </p>
+      </p> -->
+
+      <h1>TIRED OF BORING LOREM IPSUM?</h1>
+      <form class="lorem-form">
+        <label for="amount">Paragraphs: </label>
+        <input type="number" id="amount" value="1" name="amount" />
+        <button type="submit" class="btn">generate</button>
+      </form>
       <div class="contents"></div>
     </main>
     <script src="index.js"></script>

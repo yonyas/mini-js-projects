@@ -11,17 +11,29 @@ I just told you! You've killed me! Fry! Quit doing the right thing, you jerk! Mi
   `Rutters Plate Fleet boom chandler Brethren of the Coast handsomely lookout marooned brigantine knave. Buccaneer gangway jack rum loot spyglass line Jack Tar fore gaff. Gaff topmast scuttle ballast swab draught measured fer yer chains dance the hempen jig Chain Shot yardarm.`,
 ];
 
-const paraNum = document.querySelector(".paraNum");
+const paraNum = document.querySelector("#amount");
 const btn = document.querySelector(".btn");
 const contents = document.querySelector(".contents");
 let para;
 
-btn.addEventListener("click", function () {
+btn.addEventListener("click", function (e) {
+  e.preventDefault();
   contents.innerHTML = "";
-  for (i = 0; i < Number(paraNum.value); i++) {
+
+  if (
+    Number(paraNum.value) === 1 ||
+    paraNum.value >= 10 ||
+    paraNum.value <= -1
+  ) {
     para = document.createElement("p");
-    para.textContent = text[i];
+    let randomNum = Math.floor(Math.random() * text.length);
+    para.textContent = text[randomNum];
     contents.append(para);
+  } else {
+    for (i = 0; i < Number(paraNum.value); i++) {
+      para = document.createElement("p");
+      para.textContent = text[i];
+      contents.append(para);
+    }
   }
 });
-//TODO: value 1일때는 랜덤으로. -1 이하 11 이상일때는 한개만 보이도록
