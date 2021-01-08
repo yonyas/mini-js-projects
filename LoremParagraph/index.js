@@ -11,29 +11,24 @@ I just told you! You've killed me! Fry! Quit doing the right thing, you jerk! Mi
   `Rutters Plate Fleet boom chandler Brethren of the Coast handsomely lookout marooned brigantine knave. Buccaneer gangway jack rum loot spyglass line Jack Tar fore gaff. Gaff topmast scuttle ballast swab draught measured fer yer chains dance the hempen jig Chain Shot yardarm.`,
 ];
 
-const paraNum = document.querySelector("#amount");
+const amount = document.querySelector("#amount");
 const btn = document.querySelector(".btn");
 const contents = document.querySelector(".contents");
-let para;
 
 btn.addEventListener("click", function (e) {
   e.preventDefault();
-  contents.innerHTML = "";
 
-  if (
-    Number(paraNum.value) === 1 ||
-    paraNum.value >= 10 ||
-    paraNum.value <= -1
-  ) {
-    para = document.createElement("p");
+  if (Number(amount.value) === 1 || amount.value > 9 || amount.value < 0) {
     let randomNum = Math.floor(Math.random() * text.length);
-    para.textContent = text[randomNum];
-    contents.append(para);
+    contents.innerHTML = `<p>${text[randomNum]}</p>`;
   } else {
-    for (i = 0; i < Number(paraNum.value); i++) {
-      para = document.createElement("p");
-      para.textContent = text[i];
-      contents.append(para);
-    }
+    let tempText = text.slice(0, amount.value);
+    console.log(tempText);
+    let useText = tempText
+      .map(function (item) {
+        return `<p>${item}</p>`;
+      })
+      .join("");
+    contents.innerHTML = useText;
   }
 });
