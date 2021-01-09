@@ -31,7 +31,7 @@ const remainsecs = document.querySelector(".remainsecs");
 const deadline = document.querySelector(".deadline");
 
 //내가 넣은 임의의 날짜 화면 구현
-const dueDate = new Date(2021, 10, 11, 9, 00);
+const dueDate = new Date(2021, 11, 3, 9, 00);
 console.log(dueDate);
 
 let day = weekdays[dueDate.getDay()];
@@ -51,9 +51,10 @@ function addZero(item) {
   }
 }
 
-let currentDate = new Date();
+let currentDate;
 // 현재 날짜와의 차이 구하기
 function getRemainingDate() {
+  currentDate = new Date();
   remainsecs.textContent = Math.floor(((dueDate - currentDate) / 1000) % 60);
   remainmins.textContent = Math.floor(
     ((dueDate - currentDate) / 1000 / 60) % 60
@@ -64,9 +65,10 @@ function getRemainingDate() {
   remaindays.textContent = Math.floor(
     (dueDate - currentDate) / 1000 / 60 / 60 / 24
   );
-}
-setInterval(getRemainingDate, 1000);
 
-if (dueDate - currentDate < 0) {
-  deadline.innerHTML = "The date has been expired";
+  if (dueDate - currentDate < 0) {
+    clearInterval(countdown);
+    deadline.innerHTML = "The date has been expired";
+  }
 }
+const countdown = setInterval(getRemainingDate, 1000);
