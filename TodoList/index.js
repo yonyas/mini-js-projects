@@ -18,6 +18,20 @@ const arrayToDom = function (array) {
     .join("");
   lists.innerHTML = inputTag;
 };
+function deleteList(deleteBtn, inputList) {
+  deleteBtn.forEach(function (item, i) {
+    item.addEventListener("click", (e) => {
+      inputList.splice(i, 1);
+      arrayToDom(inputList);
+
+      deleteBtn = document.querySelectorAll(".delete-btn");
+      deleteList(deleteBtn, inputList);
+
+      console.log(inputList);
+      console.log(deleteBtn);
+    });
+  });
+}
 
 submitBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -26,4 +40,6 @@ submitBtn.addEventListener("click", (e) => {
 
   let editBtn = document.querySelectorAll(".edit-btn");
   let deleteBtn = document.querySelectorAll(".delete-btn");
+
+  deleteList(deleteBtn, inputList);
 });
