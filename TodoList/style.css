@@ -11,7 +11,7 @@ body {
 }
 main {
   background-color: #fff;
-  height: 400px;
+  min-height: 400px;
   max-width: 800px;
   min-width: 300px;
   border-radius: 10px;
@@ -48,6 +48,9 @@ form button {
   border-radius: 0 10px 10px 0;
 }
 /* list */
+.lists {
+  padding-bottom: 50px;
+}
 .list {
   display: flex;
   justify-content: space-between;
@@ -70,6 +73,7 @@ form button {
 
 .edit-btn {
   color: #25bb32;
+  margin-right: 5px;
 }
 .delete-btn {
   color: #e66b6b;
