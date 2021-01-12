@@ -81,5 +81,3 @@ submitBtn.addEventListener("click", (e) => {
   deleteList(deleteBtn, inputList);
   editList(editBtn, inputList);
 });
-deleteList(deleteBtn, inputList);
-editList(editBtn, inputList);
