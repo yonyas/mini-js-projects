@@ -3,7 +3,10 @@ const todoInput = document.querySelector(".todo-input");
 const lists = document.querySelector(".lists");
 let editBtn = document.querySelectorAll(".edit-btn");
 let deleteBtn = document.querySelectorAll(".delete-btn");
+let a = 1;
+
 let stopflag = false;
+let currentI;
 
 let inputList = [];
 
@@ -21,55 +24,65 @@ const arrayToDom = function (array) {
     .join("");
   lists.innerHTML = inputTag;
 };
-function deleteList(deleteBtn, inputList) {
+// delete 누르면 inputList에서 해당 인덱스의 값 삭제 후 다시 그리기
+function deleteListToDom(deleteBtn, inputList) {
   deleteBtn.forEach(function (item, i) {
     item.addEventListener("click", (e) => {
-      // delete 누르면 inputList에서 해당 인덱스의 값 삭제 후 다시 그리기
       inputList.splice(i, 1);
       arrayToDom(inputList);
 
       editBtn = document.querySelectorAll(".edit-btn");
       deleteBtn = document.querySelectorAll(".delete-btn");
-      deleteList(deleteBtn, inputList);
-      editList(editBtn, inputList);
+      deleteListToDom(deleteBtn, inputList);
+      editListToDom(editBtn, inputList);
     });
   });
 }
-function editList(editBtn, inputList) {
-  // edit누르면 inputList의 해당 인덱스를 input 에서 수정하게 하고, DOM 다시 그리기
+// edit누르면 inputList의 해당 인덱스를 input 에서 수정하게 하고, DOM 다시 그리기
+function editListToDom(editBtn, inputList) {
   editBtn.forEach(function (item, i) {
     item.addEventListener("click", function (e) {
       stopflag = true;
       todoInput.value = inputList[i];
+      currentI = i;
       todoInput.focus();
 
-      //edit 클래스 추가해서 기능 구현
+      //edit 모드 입성
       submitBtn.textContent = "Edit";
       submitBtn.classList.add("edit");
-      let editSubmitBtn = document.querySelector(".edit");
-
-      editSubmitBtn.addEventListener("click", () => {
-        todoInput.focus();
-        inputList[i] = todoInput.value;
-        arrayToDom(inputList);
-
-        // 원상복귀
-        i = "";
-        editBtn = document.querySelectorAll(".edit-btn");
-        deleteBtn = document.querySelectorAll(".delete-btn");
-        editSubmitBtn.textContent = "Submit";
-        editSubmitBtn.classList.remove("edit");
-        stopflag = false;
-        deleteList(deleteBtn, inputList);
-        editList(editBtn, inputList);
-      });
+      a = document.querySelector(".edit");
     });
+  });
+  return a;
+}
+
+//edit 모드 입성 후 edit btn 누를 때 텍스트수정
+function clickEditSubmitBtn(editSubmitBtn, index) {
+  editSubmitBtn.addEventListener("click", (e) => {
+    todoInput.focus();
+    inputList[index] = todoInput.value;
+    console.log(inputList, e.currentTarget);
+    arrayToDom(inputList);
+
+    // 원상복귀
+    i = "";
+    editBtn = document.querySelectorAll(".edit-btn");
+    deleteBtn = document.querySelectorAll(".delete-btn");
+    editSubmitBtn.textContent = "Submit";
+    editSubmitBtn.classList.remove("edit");
+    stopflag = false;
+    deleteListToDom(deleteBtn, inputList);
+    editListToDom(editBtn, inputList);
   });
 }
 
+// 할일 입력
 submitBtn.addEventListener("click", (e) => {
-  if (stopflag === true) return;
   e.preventDefault();
+  if (stopflag === true) return;
+  if (!todoInput.value) {
+    return;
+  }
   inputList.push(todoInput.value);
   arrayToDom(inputList);
   todoInput.focus();
@@ -78,6 +91,9 @@ submitBtn.addEventListener("click", (e) => {
   editBtn = document.querySelectorAll(".edit-btn");
   deleteBtn = document.querySelectorAll(".delete-btn");
 
-  deleteList(deleteBtn, inputList);
-  editList(editBtn, inputList);
+  deleteListToDom(deleteBtn, inputList);
+  let 받은a값 = editListToDom(editBtn, inputList);
+  console.log(받은a값);
+  // console.log(document.querySelector(".edit"));
+  // clickEditSubmitBtn(document.querySelector(".edit"), currentI);
 });

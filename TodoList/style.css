@@ -42,6 +42,10 @@ form input {
   border-radius: 10px;
   padding-right: 80px;
 }
+input:focus,
+.submit.focus {
+  outline: none;
+}
 @media screen and (max-width: 500px) {
   form div {
     display: flex;
