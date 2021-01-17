@@ -1,9 +1,10 @@
 const submitBtn = document.querySelector(".submit");
 const todoInput = document.querySelector(".todo-input");
 const lists = document.querySelector(".lists");
+const clear = document.querySelector(".clear");
 let editBtn = document.querySelectorAll(".edit-btn");
 let deleteBtn = document.querySelectorAll(".delete-btn");
-let stopflag = false;
+let editMode = false;
 
 let inputList = [];
 
@@ -38,37 +39,33 @@ function deleteList(deleteBtn, inputList) {
 function editList(editBtn, inputList) {
   // edit누르면 inputList의 해당 인덱스를 input 에서 수정하게 하고, DOM 다시 그리기
   editBtn.forEach(function (item, i) {
-    item.addEventListener("click", function (e) {
-      stopflag = true;
-      todoInput.value = inputList[i];
+    item.addEventListener("click", (e) => {
+      editMode = true;
+      currentIndex = Array.prototype.indexOf.call(editBtn, e.currentTarget);
+      todoInput.value = inputList[currentIndex];
       todoInput.focus();
-
-      //edit 클래스 추가해서 기능 구현
       submitBtn.textContent = "Edit";
-      submitBtn.classList.add("edit");
-      let editSubmitBtn = document.querySelector(".edit");
-
-      editSubmitBtn.addEventListener("click", () => {
+      submitBtn.addEventListener("click", (e) => {
+        if (!editMode) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
         todoInput.focus();
-        inputList[i] = todoInput.value;
+        inputList[currentIndex] = todoInput.value;
         arrayToDom(inputList);
-
-        // 원상복귀
-        i = "";
         editBtn = document.querySelectorAll(".edit-btn");
         deleteBtn = document.querySelectorAll(".delete-btn");
-        editSubmitBtn.textContent = "Submit";
-        editSubmitBtn.classList.remove("edit");
-        stopflag = false;
+        submitBtn.textContent = "Submit";
+        editMode = false;
         deleteList(deleteBtn, inputList);
         editList(editBtn, inputList);
+        todoInput.value = "";
+        console.log(inputList);
       });
     });
   });
 }
-
 submitBtn.addEventListener("click", (e) => {
-  if (stopflag === true) return;
+  if (editMode === true) return;
   e.preventDefault();
   inputList.push(todoInput.value);
   arrayToDom(inputList);
@@ -80,4 +77,8 @@ submitBtn.addEventListener("click", (e) => {
 
   deleteList(deleteBtn, inputList);
   editList(editBtn, inputList);
+});
+clear.addEventListener("click", () => {
+  lists.innerHTML = "";
+  inputList = [];
 });
