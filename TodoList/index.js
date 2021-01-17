@@ -1,12 +1,10 @@
 const submitBtn = document.querySelector(".submit");
 const todoInput = document.querySelector(".todo-input");
 const lists = document.querySelector(".lists");
+const clear = document.querySelector(".clear");
 let editBtn = document.querySelectorAll(".edit-btn");
 let deleteBtn = document.querySelectorAll(".delete-btn");
-let a = 1;
-
-let stopflag = false;
-let currentI;
+let editMode = false;
 
 let inputList = [];
 
@@ -41,43 +39,33 @@ function deleteListToDom(deleteBtn, inputList) {
 // edit누르면 inputList의 해당 인덱스를 input 에서 수정하게 하고, DOM 다시 그리기
 function editListToDom(editBtn, inputList) {
   editBtn.forEach(function (item, i) {
-    item.addEventListener("click", function (e) {
-      stopflag = true;
-      todoInput.value = inputList[i];
-      currentI = i;
+    item.addEventListener("click", (e) => {
+      editMode = true;
+      currentIndex = Array.prototype.indexOf.call(editBtn, e.currentTarget);
+      todoInput.value = inputList[currentIndex];
       todoInput.focus();
-
-      //edit 모드 입성
       submitBtn.textContent = "Edit";
-      submitBtn.classList.add("edit");
-      a = document.querySelector(".edit");
+      submitBtn.addEventListener("click", (e) => {
+        if (!editMode) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        todoInput.focus();
+        inputList[currentIndex] = todoInput.value;
+        arrayToDom(inputList);
+        editBtn = document.querySelectorAll(".edit-btn");
+        deleteBtn = document.querySelectorAll(".delete-btn");
+        submitBtn.textContent = "Submit";
+        editMode = false;
+        deleteList(deleteBtn, inputList);
+        editList(editBtn, inputList);
+        todoInput.value = "";
+        console.log(inputList);
+      });
     });
   });
-  return a;
 }
-
-//edit 모드 입성 후 edit btn 누를 때 텍스트수정
-function clickEditSubmitBtn(editSubmitBtn, index) {
-  editSubmitBtn.addEventListener("click", (e) => {
-    todoInput.focus();
-    inputList[index] = todoInput.value;
-    console.log(inputList, e.currentTarget);
-    arrayToDom(inputList);
-
-    // 원상복귀
-    i = "";
-    editBtn = document.querySelectorAll(".edit-btn");
-    deleteBtn = document.querySelectorAll(".delete-btn");
-    editSubmitBtn.textContent = "Submit";
-    editSubmitBtn.classList.remove("edit");
-    stopflag = false;
-    deleteListToDom(deleteBtn, inputList);
-    editListToDom(editBtn, inputList);
-  });
-}
-
-// 할일 입력
 submitBtn.addEventListener("click", (e) => {
+  if (editMode === true) return;
   e.preventDefault();
   if (stopflag === true) return;
   if (!todoInput.value) {
@@ -96,4 +84,8 @@ submitBtn.addEventListener("click", (e) => {
   console.log(받은a값);
   // console.log(document.querySelector(".edit"));
   // clickEditSubmitBtn(document.querySelector(".edit"), currentI);
+});
+clear.addEventListener("click", () => {
+  lists.innerHTML = "";
+  inputList = [];
 });
