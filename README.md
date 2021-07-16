@@ -1,2 +1,1 @@
-# mini-js-projects
-### 유튜브의 'Build 15 JavaScript Projects - Vanilla JavaScript Course'를 듣고 만든 프로젝트들입니다.
+# 바닐라 자바스크립트로 만든 간단한 프로젝트들입니다.
